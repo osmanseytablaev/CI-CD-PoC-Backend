@@ -1,0 +1,32 @@
+name: Deploy Backend to EC2 (Development)
+
+# This workflow triggers on push and pull requests
+on:
+  push:
+    branches:
+      - server  # Trigger on feature branches for development
+  pull_request:
+    branches:
+      - main        # Check PRs into main branch
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  # This job runs the build, lint, and test steps on feature branches and PRs
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js for the environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Adjust the Node version as needed
+
+      # Step 3: Install dependencies for the backend
+      - name: Install dependencies
+        run: |
+          npm install
